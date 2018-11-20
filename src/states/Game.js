@@ -19,11 +19,11 @@ export default class extends Phaser.State {
     let closeBtnFrame = 'close@2x.png'
     this.closeBtn = game.make.button(null, null, 'assets', () => {}, null, closeBtnFrame, closeBtnFrame, closeBtnFrame)
     this.header.add(this.closeBtn)
-    this.closeBtn.alignIn(this.headerBg, Phaser.RIGHT_CENTER, -10, 0)
+    this.closeBtn.alignIn(this.headerBg, Phaser.RIGHT_CENTER, -16, 0)
 
     this.backBtn = game.make.image(null, null, 'assets', 'arrow-left-small@2x.png')
     this.header.add(this.backBtn)
-    this.backBtn.alignIn(this.headerBg, Phaser.LEFT_CENTER, -10, 0)
+    this.backBtn.alignIn(this.headerBg, Phaser.LEFT_CENTER, -16, 0)
   }
 
   render() {
