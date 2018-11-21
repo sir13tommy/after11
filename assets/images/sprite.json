@@ -2,22 +2,6 @@
 
 {
 	"filename": "arrow-left-small@2x.png",
-	"frame": {"x":0,"y":0,"w":48,"h":48},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
-	"sourceSize": {"w":48,"h":48}
-},
-{
-	"filename": "close@2x.png",
-	"frame": {"x":48,"y":0,"w":48,"h":48},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
-	"sourceSize": {"w":48,"h":48}
-},
-{
-	"filename": "lisa@2x.png",
 	"frame": {"x":96,"y":0,"w":48,"h":48},
 	"rotated": false,
 	"trimmed": false,
@@ -25,8 +9,40 @@
 	"sourceSize": {"w":48,"h":48}
 },
 {
-	"filename": "mommy@2x.png",
+	"filename": "close@2x.png",
 	"frame": {"x":144,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+{
+	"filename": "cta-button.png",
+	"frame": {"x":0,"y":100,"w":400,"h":200},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":400,"h":200},
+	"sourceSize": {"w":400,"h":200}
+},
+{
+	"filename": "hand.png",
+	"frame": {"x":192,"y":0,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "lisa@2x.png",
+	"frame": {"x":0,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+{
+	"filename": "mommy@2x.png",
+	"frame": {"x":48,"y":0,"w":48,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
@@ -37,8 +53,8 @@
 	"version": "1.0",
 	"image": "sprite.png",
 	"format": "RGBA8888",
-	"size": {"w":192,"h":48},
+	"size": {"w":400,"h":300},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:39958aed34b1a5e535709a72cb9a7ab2:7fc7e4458842f347225d4b684d047920:68d88b3cf7eafc9b5accfffdfb2fda91$"
+	"smartupdate": "$TexturePacker:SmartUpdate:bd12dd4e248c0cec3077faac4e7b8e75:21c653080cd0a1f0b5d36bd83c060d58:68d88b3cf7eafc9b5accfffdfb2fda91$"
 }
 }
