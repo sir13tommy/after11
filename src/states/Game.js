@@ -23,10 +23,10 @@ const messages = [
   {author: 'Lisa', text: 'Tommy is here'},
   {author: 'Lisa', text: 'he says I’ll be alright'},
 
-  {author: 'Lisa', text: 'WHO SAYS?'},
-  {author: 'Lisa', text: 'WHO\'S TOMMY LISA??'},
-  {author: 'Lisa', text: 'LISA DID YOU INVITE SOMEONE IN OUR HOUSE??'},
-  {author: 'Lisa', text: 'ANSWER ME'},
+  {author: 'Mommy', text: 'WHO SAYS?'},
+  {author: 'Mommy', text: 'WHO\'S TOMMY LISA??'},
+  {author: 'Mommy', text: 'LISA DID YOU INVITE SOMEONE IN OUR HOUSE??'},
+  {author: 'Mommy', text: 'ANSWER ME'},
 ]
 
 export default class extends Phaser.State {
