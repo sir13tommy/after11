@@ -66,7 +66,9 @@ module.exports = {
       { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'src') },
       { test: /pixi\.js/, use: ['expose-loader?PIXI'] },
       { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
-      { test: /p2\.js/, use: ['expose-loader?p2'] }
+      { test: /p2\.js/, use: ['expose-loader?p2'] },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+      { test: /\.(woff|woff2)$/, use: ['base64-font-loader'] }
     ]
   },
   node: {
