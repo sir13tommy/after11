@@ -2,7 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
+var HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin')
 
 // Phaser webpack config
 var phaserModule = path.join(__dirname, '/node_modules/phaser-ce/')
@@ -45,6 +45,7 @@ module.exports = {
       template: './src/index.html',
       chunks: ['vendor', 'app'],
       chunksSortMode: 'manual',
+      inlineSource: '.(js)$',
       minify: {
         removeAttributeQuotes: true,
         collapseWhitespace: true,
@@ -55,8 +56,9 @@ module.exports = {
         removeComments: true,
         removeEmptyAttributes: true
       },
-      hash: true
-    })
+      hash: false
+    }),
+    new HtmlWebpackInlineSourcePlugin()
   ],
   module: {
     rules: [

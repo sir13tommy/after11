@@ -1,6 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
 // Phaser webpack config
@@ -37,6 +38,7 @@ module.exports = {
       template: './src/index.html',
       chunks: ['vendor', 'app'],
       chunksSortMode: 'manual',
+      inlineSource: '.(js)$',
       minify: {
         removeAttributeQuotes: false,
         collapseWhitespace: false,
@@ -49,6 +51,7 @@ module.exports = {
       },
       hash: false
     }),
+    new HtmlWebpackInlineSourcePlugin(),
     new BrowserSyncPlugin({
       host: process.env.IP || 'localhost',
       port: process.env.PORT || 3000,
