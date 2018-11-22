@@ -1,4 +1,4 @@
-/* globals __DEV__ */
+/* globals __DEV__, FbPlayableAd */
 import Phaser from 'phaser'
 import Mushroom from '../sprites/Mushroom'
 import lang from '../lang'
@@ -287,7 +287,11 @@ export default class extends Phaser.State {
     }
 
     function ctaAction () {
-      console.log('cta-action')
+      if (typeof FbPlayableAd !== 'undefined' && FbPlayableAd.onCTAClick) {
+        FbPlayableAd.onCTAClick()
+      } else {
+        console.log('CTA click')
+      }
     }
 
     function fadeOutCamera () {

@@ -13,7 +13,7 @@ export default class extends Phaser.State {
     //
     // load your assets
     //
-    this.load.atlas('assets', 'assets/images/sprite.png', 'assets/images/sprite.json')
+    this.load.atlas('assets', require('../../assets/images/sprite.png'), null, require('../../assets/images/sprite.json'))
   }
 
   create () {

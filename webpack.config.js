@@ -64,7 +64,8 @@ module.exports = {
       { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
       { test: /p2\.js/, use: ['expose-loader?p2'] },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-      { test: /\.(woff|woff2)$/, use: ['base64-font-loader'] }
+      { test: /\.(woff|woff2)$/, use: ['base64-font-loader'] },
+      { test: /\.(jpe?g|png)$/, use: 'base64-inline-loader?name=[name].[ext]'}
     ]
   },
   node: {
