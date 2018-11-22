@@ -58,6 +58,21 @@ export default class extends Phaser.State {
     header.add(backBtn)
     backBtn.alignIn(headerBg, Phaser.LEFT_CENTER, -16, 0)
 
+    let interlocutor = game.make.group(game.stage, 'interlocutor')
+
+    let interlocutorAvatar = game.make.image(0, 0, 'assets', 'mommy@2x.png')
+    interlocutorAvatar.scale.set(0.5)
+    interlocutor.add(interlocutorAvatar)
+
+    let interlocutorName = game.make.text(0, 0, 'Mommy', {
+      font: 'normal 16px sf_pro_textregular',
+      fill: '#ffffff'
+    })
+    interlocutor.add(interlocutorName)
+    interlocutorName.alignTo(interlocutorAvatar, Phaser.RIGHT_CENTER, 8, 3)
+
+    interlocutor.alignIn(header, Phaser.CENTER, 0, 0)
+
     let rectBlock = game.make.graphics(0, 0)
     rectBlock.beginFill(0x000000)
     rectBlock.drawRect(0, 0, game.width, 366)
@@ -80,6 +95,7 @@ export default class extends Phaser.State {
       .start()
 
     let hand = game.make.image(0, 0, 'assets', 'hand.png')
+    this.hand = hand
     hand.anchor.set(0.5)
     game.stage.add(hand)
     hand.alignTo(actionBtnContent, Phaser.BOTTOM_CENTER, 0, 0)
@@ -94,6 +110,14 @@ export default class extends Phaser.State {
 
     // write message on screen
     function write(message) {
+      let gameMessage = {}
+
+      let lastMessage = gameMessages[gameMessages.length - 1]
+      let pinToLastMessage = false
+      if (lastMessage && lastMessage.author === message.author) {
+        pinToLastMessage = true
+      }
+
       const viewPaddings = {
         top: 0,
         right: 48,
@@ -138,6 +162,7 @@ export default class extends Phaser.State {
         wordWrap: true,
         wordWrapWidth: maxTextWidth - textPaddings.left - textPaddings.right
       })
+      gameMessage.content = content
 
       // draw text holder
       let holder = game.make.graphics(0, 0)
@@ -155,30 +180,54 @@ export default class extends Phaser.State {
         holderX = viewPaddings.left
       }
       if (gameMessages.length) {
-        holderY = gameMessages[gameMessages.length - 1].holder.bottom + 52
+        let topMargin = 52
+        if (pinToLastMessage) {
+          topMargin = 16
+        }
+        holderY = gameMessages[gameMessages.length - 1].holder.bottom + topMargin
       } else {
         holderY = header.height + 48
       }
       holder.position.set(holderX, holderY)
+      gameMessage.holder = holder
+
+      // draw author
+      if (!pinToLastMessage) {
+        let author = game.make.text(null, null, message.author, {
+          font: 'normal 12px sf_pro_textregular',
+          fill: "#ffffff"
+        })
+        author.alpha = 0.6
+        messenger.add(author)
+        if (align === 'right') {
+          author.alignTo(holder, Phaser.TOP_RIGHT, 0, 8)
+        } else {
+          author.alignTo(holder, Phaser.TOP_LEFT, 0, 8)
+        }
+        gameMessage.author = message.author
+      } else {
+        gameMessage.author = lastMessage.author
+      }
 
       content.alignIn(holder, Phaser.TOP_LEFT, -textPaddings.left, -textPaddings.top)
       messenger.add(content)
 
-      // draw avatar
-      let avatar = game.make.image(0, 0, 'assets', avatarFrame)
-      avatar.scale.set(0.5)
-      if (align === 'right') {
-        avatar.alignTo(holder, Phaser.RIGHT_BOTTOM, 8, 0)
+      if (!pinToLastMessage) {
+        // draw avatar
+        let avatar = game.make.image(0, 0, 'assets', avatarFrame)
+        avatar.scale.set(0.5)
+        if (align === 'right') {
+          avatar.alignTo(holder, Phaser.RIGHT_BOTTOM, 8, 0)
+        } else {
+          avatar.alignTo(holder, Phaser.LEFT_BOTTOM, 8, 0)
+        }
+        messenger.add(avatar)
+        gameMessage.avatar = avatar
       } else {
-        avatar.alignTo(holder, Phaser.LEFT_BOTTOM, 8, 0)
+        gameMessage.avatar = lastMessage.avatar
       }
-      messenger.add(avatar)
 
-      gameMessages.push({
-        holder,
-        content,
-        avatar
-      })
+      gameMessages.push(gameMessage)
     }
     this.write = write
 
@@ -205,11 +254,15 @@ export default class extends Phaser.State {
       ctaBtn.alignIn(game.camera.view, Phaser.CENTER, 0, 0)
 
       let ctaContent = game.make.text(0, 0, 'Continue reading', {
-        font: 'normal 20px sf_pro_textregular',
+        font: 'normal 25px sf_pro_textregular',
         fill: '#ffffff'
       })
       game.stage.add(ctaContent)
-      ctaContent.alignIn(ctaBtn, Phaser.CENTER, 0, 0)
+      ctaContent.alignIn(ctaBtn, Phaser.CENTER, 0, 3)
+
+      hand.visible = true
+      hand.scale.set(1)
+      hand.alignTo(ctaBtn, Phaser.BOTTOM_CENTER, 0, -50)
 
       isFinish = true
     }
@@ -250,7 +303,7 @@ export default class extends Phaser.State {
   update () {
     const viewPaddingBottom = 48
     if (this.messenger.bottom > game.height - viewPaddingBottom) {
-      this.messenger.y-=5
+      this.messenger.bottom = game.height - viewPaddingBottom
     }
   }
 
