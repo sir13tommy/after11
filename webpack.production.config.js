@@ -68,7 +68,7 @@ module.exports = {
       { test: /p2\.js/, use: ['expose-loader?p2'] },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
       { test: /\.(woff|woff2)$/, use: ['base64-font-loader'] },
-      { test: /\.(jpe?g|png)$/, use: 'base64-inline-loader?name=[name].[ext]'}
+      { test: /\.(jpe?g|png|mp3)$/, use: 'base64-inline-loader?name=[name].[ext]'}
     ]
   },
   node: {

@@ -14,6 +14,7 @@ export default class extends Phaser.State {
     // load your assets
     //
     this.load.atlas('assets', require('../../assets/images/sprite.png'), null, require('../../assets/images/sprite.json'))
+    this.load.audio('after11pm', require('../../assets/sounds/.dist/after11pm.mp3'))
   }
 
   create () {

@@ -36,6 +36,14 @@ export default class extends Phaser.State {
   preload () { }
 
   create (game) {
+    const viewPaddings = {
+      top: 0,
+      right: 48,
+      bottom: 0,
+      left: 48
+    }
+
+    let mainFx = game.add.audio('after11pm')
     // header
     let messenger = game.add.group(game.world, 'messenger')
     this.messenger = messenger
@@ -118,12 +126,6 @@ export default class extends Phaser.State {
         pinToLastMessage = true
       }
 
-      const viewPaddings = {
-        top: 0,
-        right: 48,
-        bottom: 0,
-        left: 48
-      }
       const textPaddings = {
         top: 12,
         right: 12,
@@ -236,6 +238,9 @@ export default class extends Phaser.State {
     function startGame () {
       fadeOutCamera()
       startMessages.forEach(write)
+      mainFx.onDecoded.addOnce(() => {
+        mainFx.play('', 0, 1, true)
+      })
       game.inputEnabled = true
     }
 
@@ -246,23 +251,46 @@ export default class extends Phaser.State {
         return
       }
 
-      fadeOutCamera()
+      fadeOutCamera(0.85)
 
       let ctaBtnFrame = 'cta-button.png'
       let ctaBtn = game.make.button(0, 0, 'assets', ctaAction, this, ctaBtnFrame, ctaBtnFrame, ctaBtnFrame, ctaBtnFrame)
+      ctaBtn.anchor.set(0.5)
       game.stage.add(ctaBtn)
       ctaBtn.alignIn(game.camera.view, Phaser.CENTER, 0, 0)
 
-      let ctaContent = game.make.text(0, 0, 'Continue reading', {
+      let ctaContent = game.make.text(0, 3, 'Continue reading', {
         font: 'normal 25px sf_pro_textregular',
         fill: '#ffffff'
       })
-      game.stage.add(ctaContent)
-      ctaContent.alignIn(ctaBtn, Phaser.CENTER, 0, 3)
+      ctaContent.anchor.set(0.5)
+      ctaBtn.addChild(ctaContent)
 
       hand.visible = true
       hand.scale.set(1)
       hand.alignTo(ctaBtn, Phaser.BOTTOM_CENTER, 0, -50)
+
+      // Find out what happens next
+      let text = game.make.text(0, 0, 'Find out what happens next', {
+        font: 'normal 30px sf_pro_textregular',
+        fill: '#ffffff',
+        align: 'center',
+        wordWrap: true,
+        wordWrapWidth: game.width - viewPaddings.left - viewPaddings.right
+      })
+      text.alignTo(ctaBtn, Phaser.TOP_CENTER, 0, 0)
+      game.stage.add(text)
+
+      game.add.tween(text)
+        .to({alpha: 0.5})
+        .repeat(-1)
+        .yoyo(true)
+        .start()
+
+      game.add.tween(ctaBtn.scale)
+        .from({x: 0, y: 0})
+        .easing(Phaser.Easing.Bounce.Out)
+        .start()
 
       isFinish = true
     }
@@ -294,8 +322,13 @@ export default class extends Phaser.State {
       }
     }
 
-    function fadeOutCamera () {
-      game.camera.fade(0x000000, Phaser.Timer.SECOND * 0.5, true, 0.6);
+    function fadeOutCamera (opacity) {
+      if (typeof opacity !== 'undefined') {
+        opacity = opacity
+      } else {
+        opacity = 0.6
+      }
+      game.camera.fade(0x000000, Phaser.Timer.SECOND * 0.5, true, opacity);
     }
     function fadeInCamera () {
       game.camera.fade(0x000000, Phaser.Timer.SECOND * 0.5, true, 0);
