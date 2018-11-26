@@ -25,6 +25,7 @@ const messages = [
 
   {author: 'Mommy', text: 'WHO SAYS?'},
   {author: 'Mommy', text: 'WHO\'S TOMMY LISA??'},
+  {author: 'Lisa', text: '', isTyping: true},
   {author: 'Mommy', text: 'LISA DID YOU INVITE SOMEONE IN OUR HOUSE??'},
   {author: 'Mommy', text: 'ANSWER ME'}
 ]
@@ -113,12 +114,9 @@ export default class extends Phaser.State {
     // write message on screen
     function write(message) {
       let gameMessage = {}
-
-      let lastMessage = gameMessages[gameMessages.length - 1]
-      let pinToLastMessage = false
-      if (lastMessage && lastMessage.author === message.author) {
-        pinToLastMessage = true
-      }
+      
+      let group = game.add.group(messenger, 'game message')
+      gameMessage.group = group
 
       const textPaddings = {
         top: 12,
@@ -171,6 +169,7 @@ export default class extends Phaser.State {
         }, this)
         timer.start()
       }
+      gameMessage.isTyping = !!message.isTyping
 
       // draw text holder
       let minHolderWidth = 98
@@ -185,24 +184,43 @@ export default class extends Phaser.State {
         content.height + textPaddings.top + textPaddings.bottom, // height
         3
       )
-      messenger.add(holder)
-      let holderX, holderY
+      group.add(holder)
+      gameMessage.holder = holder
+
+      // get coords
+      let lastMessage = gameMessages[gameMessages.length - 1]
+      let tempMessage
+      if (lastMessage && lastMessage.isTyping) {
+        tempMessage = gameMessages.pop()
+        lastMessage = gameMessages[gameMessages.length - 1]
+      }
+      let pinToLastMessage = false
+      if (lastMessage && lastMessage.author === message.author) {
+        pinToLastMessage = true
+      }
+
+      let groupX, groupY
+      let topMarginLg = 52
+      let topMarginSm = 16
       if (align === 'right') {
-        holderX = game.width - viewPaddings.right - holder.width
+        groupX = game.width - viewPaddings.right - holder.width
       } else {
-        holderX = viewPaddings.left
+        groupX = viewPaddings.left
       }
       if (gameMessages.length) {
-        let topMargin = 52
+        let topMargin = topMarginLg
         if (pinToLastMessage) {
-          topMargin = 16
+          topMargin = topMarginSm
         }
-        holderY = gameMessages[gameMessages.length - 1].holder.bottom + topMargin
+        groupY = gameMessages[gameMessages.length - 1].group.bottom + topMargin
       } else {
-        holderY = header.height + 48
+        groupY = header.height + 48
       }
-      holder.position.set(holderX, holderY)
-      gameMessage.holder = holder
+      group.position.set(groupX, groupY)
+
+      if (tempMessage) {
+        tempMessage.group.y = group.bottom + topMarginLg
+      }
 
       // draw author
       if (!pinToLastMessage) {
@@ -211,7 +229,7 @@ export default class extends Phaser.State {
           fill: "#ffffff"
         })
         author.alpha = 0.6
-        messenger.add(author)
+        group.add(author)
         if (align === 'right') {
           author.alignTo(holder, Phaser.TOP_RIGHT, 0, 8)
         } else {
@@ -223,7 +241,7 @@ export default class extends Phaser.State {
       }
 
       content.alignIn(holder, Phaser.TOP_LEFT, -textPaddings.left, -textPaddings.top)
-      messenger.add(content)
+      group.add(content)
 
       if (!pinToLastMessage) {
         // draw avatar
@@ -234,13 +252,16 @@ export default class extends Phaser.State {
         } else {
           avatar.alignTo(holder, Phaser.LEFT_BOTTOM, 8, 0)
         }
-        messenger.add(avatar)
+        group.add(avatar)
         gameMessage.avatar = avatar
       } else {
         gameMessage.avatar = lastMessage.avatar
       }
 
       gameMessages.push(gameMessage)
+      if (tempMessage) {
+        gameMessages.push(tempMessage)
+      }
     }
     this.write = write
 
@@ -318,10 +339,7 @@ export default class extends Phaser.State {
       }
       if (messageIdx >= messages.length) {
         stepBtn.visible = false
-        setTimeout(() => {
-          write({author: 'Lisa', text: '', isTyping: true})
-        }, Phaser.Timer.SECOND)
-        setTimeout(finishGame, Phaser.Timer.SECOND * 3)
+        setTimeout(finishGame, Phaser.Timer.SECOND * 2)
       }
       if (showHint) {
         fadeInCamera()
