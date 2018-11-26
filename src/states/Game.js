@@ -26,8 +26,7 @@ const messages = [
   {author: 'Mommy', text: 'WHO SAYS?'},
   {author: 'Mommy', text: 'WHO\'S TOMMY LISA??'},
   {author: 'Mommy', text: 'LISA DID YOU INVITE SOMEONE IN OUR HOUSE??'},
-  {author: 'Mommy', text: 'ANSWER ME'},
-  {author: 'Lisa', text: '', isTyping: true}
+  {author: 'Mommy', text: 'ANSWER ME'}
 ]
 
 export default class extends Phaser.State {
@@ -153,7 +152,7 @@ export default class extends Phaser.State {
         maxTextWidth = game.width - viewPaddings.right - viewPaddings.left
       }
 
-      let content = game.make.text(null, null, message.isTyping ? '...' : message.text, {
+      let content = game.make.text(null, null, message.isTyping ? '.' : message.text, {
         font: 'normal 16px sf_pro_textregular',
         fill: '#ffffff',
         wordWrap: true,
@@ -279,7 +278,7 @@ export default class extends Phaser.State {
       ctaBtn.addChild(ctaContent)
 
       // Find out what happens next
-      let text = game.make.text(0, 0, 'Find out what happens next', {
+      let text = game.make.text(0, 0, 'Want to know what happened next?', {
         font: 'normal 30px sf_pro_textregular',
         fill: '#ffffff',
         align: 'center',
@@ -318,7 +317,10 @@ export default class extends Phaser.State {
       }
       if (messageIdx >= messages.length) {
         stepBtn.visible = false
-        setTimeout(finishGame, Phaser.Timer.HALF)
+        setTimeout(() => {
+          write({author: 'Lisa', text: '', isTyping: true})
+        }, Phaser.Timer.SECOND)
+        setTimeout(finishGame, Phaser.Timer.SECOND * 3)
       }
       if (showHint) {
         fadeInCamera()
