@@ -27,6 +27,7 @@ const messages = [
   {author: 'Mommy', text: 'WHO\'S TOMMY LISA??'},
   {author: 'Mommy', text: 'LISA DID YOU INVITE SOMEONE IN OUR HOUSE??'},
   {author: 'Mommy', text: 'ANSWER ME'},
+  {author: 'Lisa', text: '', isTyping: true}
 ]
 
 export default class extends Phaser.State {
@@ -54,12 +55,6 @@ export default class extends Phaser.State {
     headerBg.beginFill(0x3c3c3c)
     headerBg.drawRect(0, 0, game.width, 48)
     header.add(headerBg)
-
-    let closeBtnFrame = 'close@2x.png'
-    let closeBtn = game.make.button(null, null, 'assets', () => {}, null, closeBtnFrame, closeBtnFrame, closeBtnFrame)
-    closeBtn.scale.set(0.5)
-    header.add(closeBtn)
-    closeBtn.alignIn(headerBg, Phaser.RIGHT_CENTER, -16, 0)
 
     let backBtn = game.make.image(null, null, 'assets', 'arrow-left-small@2x.png')
     backBtn.scale.set(0.5)
@@ -158,7 +153,7 @@ export default class extends Phaser.State {
         maxTextWidth = game.width - viewPaddings.right - viewPaddings.left
       }
 
-      let content = game.make.text(null, null, message.text, {
+      let content = game.make.text(null, null, message.isTyping ? '...' : message.text, {
         font: 'normal 16px sf_pro_textregular',
         fill: '#ffffff',
         wordWrap: true,
@@ -166,11 +161,28 @@ export default class extends Phaser.State {
       })
       gameMessage.content = content
 
+      if (message.isTyping) {
+        let timer = game.time.create()
+        timer.loop(Phaser.Timer.HALF, () => {
+          if (content.text.length >= 3) {
+            content.text = ''
+          } else {
+            content.text += '.'
+          }
+        }, this)
+        timer.start()
+      }
+
       // draw text holder
+      let minHolderWidth = 98
+      let holderWidth = content.width + textPaddings.left + textPaddings.right
+      if (holderWidth < minHolderWidth) {
+        holderWidth = minHolderWidth
+      }
       let holder = game.make.graphics(0, 0)
       holder.beginFill(color)
       holder.drawRoundedRect(0, 0,
-        content.width + textPaddings.left + textPaddings.right, // width
+        holderWidth, // width
         content.height + textPaddings.top + textPaddings.bottom, // height
         3
       )
@@ -257,7 +269,7 @@ export default class extends Phaser.State {
       let ctaBtn = game.make.button(0, 0, 'assets', ctaAction, this, ctaBtnFrame, ctaBtnFrame, ctaBtnFrame, ctaBtnFrame)
       ctaBtn.anchor.set(0.5)
       game.stage.add(ctaBtn)
-      ctaBtn.alignIn(game.camera.view, Phaser.CENTER, 0, 0)
+      ctaBtn.alignIn(game.camera.view, Phaser.CENTER, 0, 60)
 
       let ctaContent = game.make.text(0, 3, 'Continue reading', {
         font: 'normal 25px sf_pro_textregular',
@@ -265,10 +277,6 @@ export default class extends Phaser.State {
       })
       ctaContent.anchor.set(0.5)
       ctaBtn.addChild(ctaContent)
-
-      hand.visible = true
-      hand.scale.set(1)
-      hand.alignTo(ctaBtn, Phaser.BOTTOM_CENTER, 0, -50)
 
       // Find out what happens next
       let text = game.make.text(0, 0, 'Find out what happens next', {
@@ -287,9 +295,15 @@ export default class extends Phaser.State {
         .yoyo(true)
         .start()
 
+      let pulseBtn = game.add.tween(ctaBtn.scale)
+        .to({x: 0.8, y: 0.8})
+        .repeat(-1)
+        .yoyo(true)
+
       game.add.tween(ctaBtn.scale)
         .from({x: 0, y: 0})
         .easing(Phaser.Easing.Bounce.Out)
+        .chain(pulseBtn)
         .start()
 
       isFinish = true
@@ -304,7 +318,7 @@ export default class extends Phaser.State {
       }
       if (messageIdx >= messages.length) {
         stepBtn.visible = false
-        finishGame()
+        setTimeout(finishGame, Phaser.Timer.HALF)
       }
       if (showHint) {
         fadeInCamera()
