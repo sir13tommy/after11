@@ -277,8 +277,9 @@ export default class extends Phaser.State {
       ctaContent.anchor.set(0.5)
       ctaBtn.addChild(ctaContent)
 
-      // Find out what happens next
-      let text = game.make.text(0, 0, 'Want to know what happened next?', {
+      // text: Want to know what happened next?
+      // Alt text: Figure out what heppened next
+      let text = game.make.text(0, 0, 'Figure out what heppened next', {
         font: 'normal 30px sf_pro_textregular',
         fill: '#ffffff',
         align: 'center',
