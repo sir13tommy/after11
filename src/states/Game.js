@@ -150,8 +150,9 @@ export default class extends Phaser.State {
         maxTextWidth = game.width - viewPaddings.right - viewPaddings.left
       }
 
+      let fontSize = message.isTyping ? 48 : 16
       let content = game.make.text(null, null, message.isTyping ? '.' : message.text, {
-        font: 'normal 16px sf_pro_textregular',
+        font: `normal ${fontSize}px sf_pro_textregular`,
         fill: '#ffffff',
         wordWrap: true,
         wordWrapWidth: maxTextWidth - textPaddings.left - textPaddings.right
@@ -174,6 +175,13 @@ export default class extends Phaser.State {
       // draw text holder
       let minHolderWidth = 98
       let holderWidth = content.width + textPaddings.left + textPaddings.right
+      let holderHeight
+      if (message.isTyping) {
+        holderHeight = 16 + textPaddings.top + textPaddings.bottom
+      } else {
+        holderHeight = content.height + textPaddings.top + textPaddings.bottom
+      }
+
       if (holderWidth < minHolderWidth) {
         holderWidth = minHolderWidth
       }
@@ -181,11 +189,18 @@ export default class extends Phaser.State {
       holder.beginFill(color)
       holder.drawRoundedRect(0, 0,
         holderWidth, // width
-        content.height + textPaddings.top + textPaddings.bottom, // height
+        holderHeight, // height
         3
       )
       group.add(holder)
       gameMessage.holder = holder
+
+      if (message.isTyping) {
+        content.alignIn(holder, Phaser.TOP_LEFT, -textPaddings.left, 20)
+      } else {
+        content.alignIn(holder, Phaser.TOP_LEFT, -textPaddings.left, -textPaddings.top)
+      }
+      group.add(content)
 
       // get coords
       let lastMessage = gameMessages[gameMessages.length - 1]
@@ -240,9 +255,6 @@ export default class extends Phaser.State {
         gameMessage.author = lastMessage.author
       }
 
-      content.alignIn(holder, Phaser.TOP_LEFT, -textPaddings.left, -textPaddings.top)
-      group.add(content)
-
       if (!pinToLastMessage) {
         // draw avatar
         let avatar = game.make.image(0, 0, 'assets', avatarFrame)
@@ -263,7 +275,6 @@ export default class extends Phaser.State {
         gameMessages.push(tempMessage)
       }
     }
-    this.write = write
 
     let showHint = true
     // start game function
@@ -333,8 +344,9 @@ export default class extends Phaser.State {
     // step game function
     let messageIdx = 0
     function step () {
-      if (messages[messageIdx]) {
-        write(messages[messageIdx])
+      let message = messages[messageIdx]
+      if (message) {
+        write(message)
         messageIdx++
       }
       if (messageIdx >= messages.length) {
@@ -346,6 +358,9 @@ export default class extends Phaser.State {
         hand.visible = false
         actionBtnContent.visible = false
         showHint = false
+      }
+      if (message.autoRespond) {
+        step()
       }
     }
 
