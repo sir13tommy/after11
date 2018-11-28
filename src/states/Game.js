@@ -61,20 +61,13 @@ export default class extends Phaser.State {
     header.add(backBtn)
     backBtn.alignIn(headerBg, Phaser.LEFT_CENTER, -16, 0)
 
-    let interlocutor = game.make.group(game.stage, 'interlocutor')
+    let title = game.make.group(game.stage, 'title')
 
-    let interlocutorAvatar = game.make.image(0, 0, 'assets', 'mommy@2x.png')
-    interlocutorAvatar.scale.set(0.5)
-    interlocutor.add(interlocutorAvatar)
+    let logo = game.make.image(0, 0, 'assets', 'logo.png')
+    logo.scale.set(0.5)
+    title.add(logo)
 
-    let interlocutorName = game.make.text(0, 0, 'Mommy', {
-      font: 'normal 16px sf_pro_textregular',
-      fill: '#ffffff'
-    })
-    interlocutor.add(interlocutorName)
-    interlocutorName.alignTo(interlocutorAvatar, Phaser.RIGHT_CENTER, 8, 3)
-
-    interlocutor.alignIn(header, Phaser.CENTER, 0, 0)
+    title.alignIn(header, Phaser.CENTER, 0, 3)
 
     let rectBlock = game.make.graphics(0, 0)
     rectBlock.beginFill(0x000000)
@@ -182,7 +175,7 @@ export default class extends Phaser.State {
       if (message.isTyping) {
         content.text = ''
         let timer = game.time.create()
-        timer.loop(Phaser.Timer.HALF, () => {
+        timer.loop(Phaser.Timer.SECOND * 0.3, () => {
           if (content.text.length >= 3) {
             content.text = ''
           } else {
@@ -308,7 +301,7 @@ export default class extends Phaser.State {
       ctaBtn.addChild(ctaContent)
 
       // text: Want to know what happened next?
-      // Alt text: Figure out what happened next
+      // Alt text: Find out what happens next
       let text = game.make.text(0, 0, 'Want to know what happened next?', {
         font: 'normal 30px sf_pro_textregular',
         fill: '#ffffff',

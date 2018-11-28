@@ -41,6 +41,14 @@
 	"sourceSize": {"w":48,"h":48}
 },
 {
+	"filename": "logo.png",
+	"frame": {"x":292,"y":0,"w":199,"h":28},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":199,"h":28},
+	"sourceSize": {"w":199,"h":28}
+},
+{
 	"filename": "mommy@2x.png",
 	"frame": {"x":48,"y":0,"w":48,"h":48},
 	"rotated": false,
@@ -49,12 +57,12 @@
 	"sourceSize": {"w":48,"h":48}
 }],
 "meta": {
-	"app": "http://www.codeandweb.com/texturepacker",
+	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "sprite.png",
 	"format": "RGBA8888",
-	"size": {"w":400,"h":300},
+	"size": {"w":491,"h":300},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:bd12dd4e248c0cec3077faac4e7b8e75:21c653080cd0a1f0b5d36bd83c060d58:68d88b3cf7eafc9b5accfffdfb2fda91$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c3a932639a7d9f58bf90517fcaa519c9:ed58ea90cc4bf4555141338f2a778367:68d88b3cf7eafc9b5accfffdfb2fda91$"
 }
 }
