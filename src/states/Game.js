@@ -25,9 +25,9 @@ const messages = [
 
   {author: 'Mommy', text: 'WHO SAYS?'},
   {author: 'Mommy', text: 'WHO\'S TOMMY LISA??'},
-  {author: 'Lisa', text: '', isTyping: true},
   {author: 'Mommy', text: 'LISA DID YOU INVITE SOMEONE IN OUR HOUSE??'},
-  {author: 'Mommy', text: 'ANSWER ME'}
+  {author: 'Mommy', text: 'ANSWER ME'},
+  {author: 'Lisa', text: '', isTyping: true},
 ]
 
 export default class extends Phaser.State {
@@ -151,7 +151,7 @@ export default class extends Phaser.State {
       }
 
       let fontSize = message.isTyping ? 48 : 16
-      let content = game.make.text(null, null, message.isTyping ? '.' : message.text, {
+      let content = game.make.text(null, null, message.isTyping ? '...' : message.text, {
         font: `normal ${fontSize}px sf_pro_textregular`,
         fill: '#ffffff',
         wordWrap: true,
@@ -159,7 +159,28 @@ export default class extends Phaser.State {
       })
       gameMessage.content = content
 
+
+      // draw text holder
+      let holderWidth = content.width + textPaddings.left + textPaddings.right
+      let holderHeight
       if (message.isTyping) {
+        holderHeight = 16 + textPaddings.top + textPaddings.bottom
+      } else {
+        holderHeight = content.height + textPaddings.top + textPaddings.bottom
+      }
+
+      let holder = game.make.graphics(0, 0)
+      holder.beginFill(color)
+      holder.drawRoundedRect(0, 0,
+        holderWidth, // width
+        holderHeight, // height
+        3
+      )
+      group.add(holder)
+      gameMessage.holder = holder
+
+      if (message.isTyping) {
+        content.text = ''
         let timer = game.time.create()
         timer.loop(Phaser.Timer.HALF, () => {
           if (content.text.length >= 3) {
@@ -171,29 +192,6 @@ export default class extends Phaser.State {
         timer.start()
       }
       gameMessage.isTyping = !!message.isTyping
-
-      // draw text holder
-      let minHolderWidth = 98
-      let holderWidth = content.width + textPaddings.left + textPaddings.right
-      let holderHeight
-      if (message.isTyping) {
-        holderHeight = 16 + textPaddings.top + textPaddings.bottom
-      } else {
-        holderHeight = content.height + textPaddings.top + textPaddings.bottom
-      }
-
-      if (holderWidth < minHolderWidth) {
-        holderWidth = minHolderWidth
-      }
-      let holder = game.make.graphics(0, 0)
-      holder.beginFill(color)
-      holder.drawRoundedRect(0, 0,
-        holderWidth, // width
-        holderHeight, // height
-        3
-      )
-      group.add(holder)
-      gameMessage.holder = holder
 
       if (message.isTyping) {
         content.alignIn(holder, Phaser.TOP_LEFT, -textPaddings.left, 20)
@@ -300,7 +298,7 @@ export default class extends Phaser.State {
       let ctaBtn = game.make.button(0, 0, 'assets', ctaAction, this, ctaBtnFrame, ctaBtnFrame, ctaBtnFrame, ctaBtnFrame)
       ctaBtn.anchor.set(0.5)
       game.stage.add(ctaBtn)
-      ctaBtn.alignIn(game.camera.view, Phaser.CENTER, 0, 60)
+      ctaBtn.alignIn(game.camera.view, Phaser.BOTTOM_CENTER, 0, -80)
 
       let ctaContent = game.make.text(0, 3, 'Continue reading', {
         font: 'normal 25px sf_pro_textregular',
@@ -310,15 +308,15 @@ export default class extends Phaser.State {
       ctaBtn.addChild(ctaContent)
 
       // text: Want to know what happened next?
-      // Alt text: Figure out what heppened next
-      let text = game.make.text(0, 0, 'Figure out what heppened next', {
+      // Alt text: Figure out what happened next
+      let text = game.make.text(0, 0, 'Figure out what happened next', {
         font: 'normal 30px sf_pro_textregular',
         fill: '#ffffff',
         align: 'center',
         wordWrap: true,
         wordWrapWidth: game.width - viewPaddings.left - viewPaddings.right
       })
-      text.alignTo(ctaBtn, Phaser.TOP_CENTER, 0, 0)
+      text.alignIn(game.camera.view, Phaser.CENTER, 0, 0)
       game.stage.add(text)
 
       game.add.tween(text)
