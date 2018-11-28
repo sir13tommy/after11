@@ -298,7 +298,7 @@ export default class extends Phaser.State {
       let ctaBtn = game.make.button(0, 0, 'assets', ctaAction, this, ctaBtnFrame, ctaBtnFrame, ctaBtnFrame, ctaBtnFrame)
       ctaBtn.anchor.set(0.5)
       game.stage.add(ctaBtn)
-      ctaBtn.alignIn(game.camera.view, Phaser.BOTTOM_CENTER, 0, -80)
+      ctaBtn.alignIn(game.camera.view, Phaser.BOTTOM_CENTER, 0, -10)
 
       let ctaContent = game.make.text(0, 3, 'Continue reading', {
         font: 'normal 25px sf_pro_textregular',
@@ -309,7 +309,7 @@ export default class extends Phaser.State {
 
       // text: Want to know what happened next?
       // Alt text: Figure out what happened next
-      let text = game.make.text(0, 0, 'Figure out what happened next', {
+      let text = game.make.text(0, 0, 'Want to know what happened next?', {
         font: 'normal 30px sf_pro_textregular',
         fill: '#ffffff',
         align: 'center',
@@ -318,6 +318,9 @@ export default class extends Phaser.State {
       })
       text.alignIn(game.camera.view, Phaser.CENTER, 0, 0)
       game.stage.add(text)
+      if (text.bottom > ctaBtn.top) {
+        text.bottom = ctaBtn.top
+      }
 
       game.add.tween(text)
         .to({alpha: 0.5})
