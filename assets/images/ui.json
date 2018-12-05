@@ -1,0 +1,52 @@
+{"frames": [
+
+{
+	"filename": "cta-button.png",
+	"frame": {"x":1,"y":113,"w":200,"h":63},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":63},
+	"sourceSize": {"w":200,"h":63}
+},
+{
+	"filename": "hand.png",
+	"frame": {"x":339,"y":1,"w":100,"h":93},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":100,"h":93},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "hint.png",
+	"frame": {"x":1,"y":1,"w":336,"h":110},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":336,"h":110},
+	"sourceSize": {"w":336,"h":110}
+},
+{
+	"filename": "score_holder.png",
+	"frame": {"x":203,"y":113,"w":200,"h":56},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":56},
+	"sourceSize": {"w":200,"h":56}
+},
+{
+	"filename": "star.png",
+	"frame": {"x":405,"y":96,"w":71,"h":67},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":71,"h":67},
+	"sourceSize": {"w":71,"h":67}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "ui.png",
+	"format": "RGBA8888",
+	"size": {"w":477,"h":177},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:bdfc34e47c08139ec0e1efc2479ec6dc:de3964f024e05a2f239433e235890e64:5b04aa198265472a3c5f56958d78e97b$"
+}
+}
