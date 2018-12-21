@@ -11,7 +11,7 @@ import config from './config'
 
 window.PhaserGlobal = {
   disableWebAudio: true
-};
+}
 
 class Game extends Phaser.Game {
   constructor () {

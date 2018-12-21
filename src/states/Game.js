@@ -302,7 +302,7 @@ export default class extends Phaser.State {
 
       // text: Want to know what happened next?
       // Alt text: Find out what happens next
-      let text = game.make.text(0, 0, 'Find out what happens next', {
+      let text = game.make.text(0, 0, 'Want to know what happened next?', {
         font: 'normal 30px sf_pro_textregular',
         fill: '#ffffff',
         align: 'center',
